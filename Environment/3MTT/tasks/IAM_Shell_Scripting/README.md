@@ -48,6 +48,6 @@ _exit 0 ensures the script exits successfully._
 ![.](./Img/5.2.jpg)
 
 >_**The Link**_<br>
-[Link to the extended script](https://github.com/Sola-Royal/Devops_projects/blob/main/Shell_script_iam/index.sh)
+[Link to the extended script](https://github.com/rotbaj/DevOps_3MTT/blob/main/Environment/3MTT/tasks/IAM_Shell_Scripting/index.sh)
 
 **This is all concerning Shell script for AWS IAM management**
