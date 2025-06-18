@@ -36,7 +36,7 @@ __The structure__
 
 __(a) `Edit` to make change__
 ![.](./Img/4..jpg)
-_Now `uncheck` the `Block all access` option., then click oin `save changes`_
+_Now `uncheck` the `Block all access` option., then click on `save changes`_
 ![.](./Img/4.1.jpg)
 
 >**object Uploading**<br>
