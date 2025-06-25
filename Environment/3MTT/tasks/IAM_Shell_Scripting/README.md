@@ -1,53 +1,133 @@
-# **Shell script for AWS IAM management**
+# Shell Scripting for AWS IAM management (Capstone Project)
 
->**This Capstone project project is about Shell and AWS management. shell script is being used to write code that work with AWS direct from the CLI.**
+### Project Scenario
 
+CloudOps Solutions is a growing company that recently adopted AWS to manage its cloud infrastructure. As the company scales, they have decided to automate the process of managing AWS Identity and Access Management (IAM) resources. This includes the creation of users, user groups, and the assignment of permissions for new hires, especially for their DevOps team.
 
-# **1. Script Purpose**
->_**Created the bash file named `aws-iam-manager.sh`**_
-![.](./Img/1.jpg)
+### Purpose
 
-_This specifies that the script should be run in the Bash shell._
-_The comments describe its purpose: to automate AWS IAM user, group, and permission management._
-![.](./Img/2.jpg)
+You will extend your shell scripting capabilities by creating more functions inside the "aws-iam-manager.sh" script to fulfill the objectives below. Ensure that you have already configured AWS CLI in your terminal and the configured AWS Account have the appropriate permissions to manage IAM resources.
 
->_**Define IAM User Names Array**_<br>
-_This line creates an array variable called `IAM_USER_NAMES` containing five user names._
-_These names will be used to create IAM users in AWS._
-![.](./Img/3.jpg)
+### Objectives:
 
->_**Function to Create IAM Users**_<br>
-_This function loops over each user name in the array._
-_For each name, it runs aws iam create-user to create the user in AWS._
-_It checks if the command succeeded ($? -eq 0), and prints a success or warning message._
-![.](./Img/4.jpg)
+Extend the provided script to include IAM management by:
 
+1. Defining IAM User Names Array to store the names of the five IAM users in an array for easy iteration during user creation.
 
->_**Function to Create Admin Group and Attach Policy**_<br>
-This function ensures an IAM group called "admin" exists.
-It first checks if the "admin" group exists. If not, it creates it.
-Afterwards, it attaches the AWS-managed "AdministratorAccess" policy to the "admin" group, giving it administrative privileges.
-![.](./Img/4.2.jpg)
+2. Create the IAM Users as you iterate through the array using AWS CLI commands
 
->_**Function Placeholder to Add Users to Admin Group**_<br>
-_This is a placeholder function. It’s meant to add the created users to the "admin" group, but the code isn’t implemented yet._
-_It just prints messages for now._
-![.](./Img/4.3.jpg)
+3. Define and call a function to create an IAM group named "admin" using the AWS CLI commands.
 
->_**Main Function and Script Execution**_<br>
-_This is the main entry point for the script._
-_It prints headers, checks if the AWS CLI tool is installed, and then runs the three main functions in order._
-![.](./Img/4.4.jpg)
+4. Attach an AWS-managed administrative policy (e.g., "AdministratorAccess") to the "admin" group to grant administrative privileges.
 
-_The Script Executionc alls the main function to start the process_
-_exit 0 ensures the script exits successfully._
+5. Iterate through the array of IAM user names and assign each user to the "admin" group using AWS CLI commands.
 
->_**The output of the implementation**_<br>
-![.](./Img/5.jpg)
-![.](./Img/5.1.jpg)
-![.](./Img/5.2.jpg)
+``` bash
+#!/bin/bash
 
->_**The Link**_<br>
-[Link to the extended script](https://github.com/rotbaj/DevOps_3MTT/blob/main/Environment/3MTT/tasks/IAM_Shell_Scripting/index.sh)
+PROFILE="cassie"
 
-**This is all concerning Shell script for AWS IAM management**
+# Define IAM User Names Array
+IAM_USER_NAMES=("alice" "bob" "charlie" "diana" "eric")  # Replace with actual usernames
+
+create_iam_users() {
+    echo "Creating IAM users..."
+    for USER in "${IAM_USER_NAMES[@]}"; do
+        if aws iam get-user --user-name "$USER" --profile "$PROFILE" >/dev/null 2>&1; then
+            echo "User $USER already exists."
+        else
+            aws iam create-user --user-name "$USER" --profile "$PROFILE" && echo "Created user: $USER" || echo "Failed to create user: $USER"
+        fi
+    done
+    echo ""
+}
+
+create_cloudops_admin_group() {
+    echo "Setting up 'cloudOps-admin' group..."
+    if ! aws iam get-group --group-name "cloudOps-admin" --profile "$PROFILE" >/dev/null 2>&1; then
+        aws iam create-group --group-name "cloudOps-admin" --profile "$PROFILE" && echo "Group created: cloudOps-admin"
+    else
+        echo "Group already exists: cloudOps-admin"
+    fi
+
+    aws iam attach-group-policy \
+        --group-name "cloudOps-admin" \
+        --policy-arn arn:aws:iam::aws:policy/AdministratorAccess \
+        --profile "$PROFILE" \
+        && echo "Policy attached to group." || echo "Failed to attach policy."
+
+    echo ""
+}
+
+add_users_to_cloudops_admin_group() {
+    echo "Adding users to 'cloudOps-admin' group..."
+    for USER in "${IAM_USER_NAMES[@]}"; do
+        aws iam add-user-to-group \
+            --user-name "$USER" \
+            --group-name "cloudOps-admin" \
+            --profile "$PROFILE" \
+            && echo "Added $USER to group." || echo "Failed to add $USER."
+    done
+    echo ""
+}
+
+main() {
+    if ! command -v aws &> /dev/null; then
+        echo "AWS CLI not installed or not in PATH."
+        exit 1
+    fi
+
+    create_iam_users
+    create_cloudops_admin_group
+    add_users_to_cloudops_admin_group
+
+    echo "IAM setup complete."
+}
+
+main
+exit 0
+```
+
+## Project Deliverable
+
+- AWS configuration and version
+
+![](./images/1.%20AWS-config.png)
+
+- Users created from the script output
+
+![](./images/2.%20usernames-created.png)
+
+- CloudOps-admin group created
+
+![](./images/3.%20IAM-setup-complete.png)
+
+- All five users added to CloudOps group
+
+![](./images/3b.%20all-user-added-to-group.png)
+
+- CloupOps group created on AWS IAM console
+
+![](./images/4.%20cloupOps-created.png)
+
+- All the five user created in the CloudOpd-admin group
+
+![](./images/5.%205-users-created.png)
+
+- Administrative access policy attached to CloudOps-admin group
+
+![](./images/6.%20permission.png)
+
+# AWS IAM Management Script Overview
+
+This script provides automated management of AWS IAM resources with the following features:
+## Script Functionality
+
+Defines an array of IAM users to be created
+- Provides functions to:
+- Create IAM users
+- Create an admin group
+- Attach the AdministratorAccess policy to the group
+- Add all users to the admin group
+    Includes error checking for each AWS CLI operation
+- Implements a main function that orchestrates the execution flow.
