@@ -23,5 +23,4 @@ https://github.com/rotbaj/DevOps_3MTT/blob/main/Environment/3MTT/index.html
 https://github.com/rotbaj/DevOps_3MTT/blob/add-contact-info/Environment/3MTT/index.html
 https://github.com/rotbaj/DevOps_3MTT/blob/update-navigation/Environment/3MTT/index.html
 
-*(Insert a screenshot showing the `index.html` file at the root of your GitHub repository.)*
 
