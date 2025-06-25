@@ -31,6 +31,4 @@ This project serves as a central hub for my learning and practical exercises in 
     * Using Terraform to define and manage infrastructure.
     * Promoting Infrastructure repeatability.
 
-## Getting Started
 
-To explore this project, navigate to the respective directories for each topic. Each directory contains detailed documentation, code samples, and relevant resources.
