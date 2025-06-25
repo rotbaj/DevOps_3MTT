@@ -1,5 +1,7 @@
 #!/bin/bash
 
+for i in $(seq 1 5)
+do
 
-read -p "Enter a number: " num 
-echo "You have entered the number $num"
+    echo "Counting... $i"
+done
