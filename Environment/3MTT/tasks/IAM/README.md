@@ -1,220 +1,387 @@
-# **Security and identity access management**
+# Identity Access Management (IAM)
 
->**This mini project is about AWS IAM. I will bw working on Zappy e-bank project using AWS IAM in managing cloud resources security and efficiently.**
+**Identity and Access Management (IAM)** in `AWS` is a fundamental service that helps you securely manage who can access your `AWS` resources and what they can do with them. Its primary purpose is to control authentication (who can sign in) and authorization (what permissions they have) within your `AWS` environment.
 
-> ## **Importance of IAM in Zappy e-Bank**
-_<p>1. Protects Sensitive Customer Data:Zappy e-Bank deals with highly sensitive information like customer identities, bank accounts, transactions, and financial history. IAM helps ensure that only authorized staff can access this data, preventing data breaches and identity theft.</p>_
+**Purpose of IAM**
 
-_<p>2. Enables Secure Access Control: IAM makes it easy to define who can access what within the system. IAM is like the digital gatekeeper of Zappy e-Bank — ensuring the right people have the right access to the right resources at the right time. It plays a key role in protecting customer trust, ensuring legal compliance, and keeping the bank’s systems secure and efficient.</p>_
+- `Authentication`: Verifying the identity of users, applications, or services trying to access AWS.
 
+- `Authorization`: Defining and enforcing what actions they are allowed to perform, like launching instances, creating databases, or accessing storage.
 
-_The Role of IAM in AWS Identity and Access Management (IAM) in AWS is like the security guard for your cloud resources. It makes sure that only the right people can access certain data or services. Imagine a building where you need a special pass to enter different rooms—IAM is the system that gives out those passes and checks them at the door. This helps keep everything organized and secure so that only authorized people can do certain things in your AWS environment._
+- `User and Group Management`: Creating individual users and organizing them into groups to manage permissions more easily.
 
-> # **Project Reflection and settup**
+- `Policy Management`: Applying policies (sets of rules) that specify permissions and attach them to users, groups, or roles.
 
->**Log in into the AWS management Console**<br>
-_This my managemt Console_
-![.](./Img/1.%20console%201.jpg)
-_Here is the IAM dashboard_
-![.](./Img/2.%20iam.jpg)
+## How IAM Contributes to Security
 
->**Creating IAM Users**<br>
+- `Least Privilege Principle`: You can grant only the minimum permissions necessary for users to perform their tasks, reducing the risk of misuse.
 
-_an IAM USER  is a unique idnetity within an AWS acciunt that represents a person or services, granting specific permissions to access an interact with AWS s=resources under controlled and customizable security policies_
+- `Granular Access Control`: You can finely tune permissions at the resource level, such as allowing access only to specific `S3` buckets or `EC2` instances.
 
-_There is a master key to building which is root user. we will not want to give the master key to `john` and `mary` because of security purpose._
+- `Temporary Credentials`: IAM roles can issue temporary security credentials, making access safer, especially for applications and services.
 
-_I will setup `IAM` user for a `backend developer, john`, and a `data analyst, mary`, by first determing their specific access needs_
+- `Multi-Factor Authentication (MFA)`: Adds an extra layer of security beyond passwords.
 
-_As a backend developer, john rewuires access to server `EC2` to run his code, necessitating an IAM user with policies granting EC2 access._
+- `Audit and Compliance` : IAM integrates with AWS CloudTrail to log and monitor all `API calls` for auditing purposes.
 
-_As a data analyst, Mary needs access to data storage `AWS S3 Service`, so her IAM user should have policies enabling S3 access_
+## How IAM Contributes to Efficient Management
 
+- `Centralized Access Control`: All permissions are managed from a single place, making administration simpler.
 
-> ## **Create policy for the Development team**<br>
+- `Delegation via Roles`: Services and external users (like third-party contractors) can be given temporary and controlled access through IAM roles without sharing permanent credentials.
 
-_1. In the IAM console_
-![new](./Img/3.%20dashboard.jpg)
-_create policy_
-![new](./Img/3.%20create%20policy.jpg)
+- `Scalability`: As your organization grows, IAM can handle thousands of users, policies, and roles with organized management practices.
 
-_Search for EC2_
-![new](./Img/4.0%20ec2%20search.jpg)
+- `Automation and Federation`: IAM supports identity federation (e.g., connecting your corporate directory with AWS) and automation tools for large-scale account management.
 
-_selecting the `ALL EC2 actions` checkbox, selected `ALL` in the resources section_
-![new](./Img/4.1%20all.jpg)
-![new](./Img/4.2%20all2.jpg)
+## IAM Users
 
+- `Definition`: An IAM user is an individual identity with specific credentials (username and password and access keys) used to interact with AWS services.
+- `Purpose`: Represents a single person or application that requires direct access to AWS resources.
+- `Permissions`: Permissions can be assigned directly to the user or inherited from group memberships.
 
+### Use Cases:
 
-_provided the name `developers` and description for the policy_
-![new](./Img/5.%20developers.jpg)
-_Created the policy_
-![new](./Img/5.1%20create.jpg)
+Granting a developer access to manage EC2 instances.
+Allowing a CI/CD pipeline to deploy applications to AWS.
 
-__The dashboard of the policy developers created__
-![new](./Img/5.2%20created.jpg)
-_In `developers` policy there is an `customer managed` while on `AWS` there is `AWS managed`. it means we are in  charged_
-![new](./Img/6.%20cus%20managed.jpg)
+## IAM Groups
 
-> ## **Create policy for the Data Analyst team**<br>
-_specify permission for s3 bucket for data analyst_
-![new](./Img/7.%20anals.jpg)
-_use `analyst` as a name and the description for the data analyst S3 bucket_
-![new](./Img/7.2%20analys.jpg)
-_Select `all` for the permission choice_
-![new](./Img/7.1%20s3.jpg)
-__Next for other options before the creation and type `create policy`__
-![new](./Img/7.3%20created.jpg)
-__policy analyst created and the customer managed enabled__
-![new](./Img/7.4%20policy%20cre.jpg)
+- `Definition`: An IAM group is a collection of IAM users. Groups simplify permission management by allowing you to assign permissions to multiple users simultaneously.
+- `Purpose`: To facilitates the management of permissions for multiple users who share similar access requirements.
+- `Permissions`: Policies attached to a group apply to all its members.
 
+### Use Cases:
 
-> ## **Create Group for the Development team**<br>
-__In the IAM console navigation, Select `User group` and in the top right click `Create group`__
-![new](./Img/8.%20user%20group.jpg)
-_imput the development team name `Development-Team`_
-![new](./Img/8.1%20devteam.jpg
-)
-![new](./Img/8.1%20devteam.jpg
-)
-_attach the developers policy we created to the group Development-Team._
-![new](./Img/8.2%20atach.jpg)
-_the development team Created_
-![new](./Img/8.3%20created.jpg)
+Creating an "Admins" group with full access to AWS services.
+Establishing a "Developers" group with permissions to manage development resources.
 
+#### Best Practices
 
-> ## **Create Group for the Data analyst team**<br>
-__The dashboard for the resources `IAM`, there is a one user group, two roles two policy.__
-![new](./Img/9.%20after%20user%20grp.jpg)
-_User group dashboard to create a `data analyst` group_
-![new](./Img/9.1%20to%20create%20grp.jpg)
-_imput the Analyst team name `Analyst-Team` as a name_
-![new](./Img/9.2%20analy%20grp.jpg)
+1. `Use Groups for Permission Management`: Assign permissions to groups rather than individual users to streamline access control.​
 
-_attach the `analyst` policy we created to the group `Analyst-Team`._
-![new](./Img/9.3%20grp%20created.jpg)
-_the group team Created successfully_
-![new](./Img/10.%20grp%20cretaed%20anay.jpg)
+2. `Implement Least Privilege Principle`: Grant users only the permissions necessary to perform their tasks.​
+3. `Regularly Review Group Memberships`: Ensure users are in appropriate groups to maintain security and compliance.
 
-![new](./Img/10.%20grp%20cretaed%20anay.jpg)
+# The Principle of Least Privilege (PoLP)
 
-> ## **Create IAM User for john**<br>
-__John is a backend developer to be added to Development-Team group__
-_Navigate to IAM dashboard, select ` Create User`_
-![new](./Img/11.%20user%20create.jpg)
-_imput the name `john` and review the process_
-![.](./Img/11.1%20user%20cregte.jpg)
-_Add the user john to development team_
-![.](./Img/11.2.jpg)
-__Create User__
-![.](./Img/11.3%20user%20created.jpg)
+The Principle of Least Privilege (PoLP) is a foundational security concept in AWS Identity and Access Management (IAM). It dictates that users, applications, and services should be granted only the permissions necessary to perform their tasks—no more, no less.
 
-__Download the john credentials for login__
-![.](./Img/12.%20download%20john%20user.jpg)
+**What Is the Principle of Least Privilege?**
+
+In AWS, the principle of least privilege ensures that each IAM identity (user, group, or role) has the minimal set of permissions required to fulfill its responsibilities. This approach minimizes the potential for accidental or malicious actions that could compromise security.
+
+**Why Is It Important?**
+
+- `Implementing least privilege in AWS offers several key benefits:`
+
+- `Enhanced Security`: Limiting permissions reduces the risk of unauthorized access and potential damage from compromised credentials.
+- `Reduced Attack Surface`: By granting minimal access, the potential pathways for attackers are minimized.
+- `Compliance`: Many regulatory standards require strict access controls, which are facilitated by adhering to the principle of least privilege.
+- `Operational Efficiency`: Simplified permission structures make it easier to manage and audit access rights.
+
+## How to Implement Least Privilege in AWS IAM
+
+To effectively apply the principle of least privilege in AWS:
+
+1. `Start with AWS Managed Policies`: Utilize AWS-provided policies as a baseline, then customize them to fit specific needs.
+2. `Use IAM Access Analyzer`: This tool helps identify unused permissions and suggests policy adjustments to enforce least privilege.
+3. `Regularly Review Permissions`: Periodically assess and adjust IAM policies to ensure they align with current requirements.
+4. `Implement Role-Based Access Control (RBAC)`: Assign permissions to roles based on job functions, and then associate users with appropriate roles.
+5. `Apply Conditions in Policies`: Use policy conditions to restrict access based on factors like IP address, time of day, or request origin.
+
+When John is assigned to the development-team IAM group with the `AmazonEC2FullAccess policy`, he inherits comprehensive permissions to manage Amazon EC2 resources. This AWS-managed policy grants full access to EC2, including actions like launching, terminating, and modifying instances, as well as managing security groups and key pairs. ​
 
 
-> ## **Create IAM User for Mary**<br>
-__Mary is a Data analyst to be added to Development-Team group__
-_Navigate to IAM dashboard, select ` Create User` and _imput the name `mary` and review the process__
-![new](./Img/13.%20mary%20user.jpg)
-![.](./Img/13.1%20mart%20created.jpg)
-_Add the user mary to development team_
-![.](./Img/13.2%20mary.jpg)
+## Key Considerations
 
-__Create User__
-![.](./Img/13.3%20mary.jpg)
+- Scope of Permissions: The `AmazonEC2FullAccess` policy provides extensive permissions, which may exceed John's specific needs as a developer. This broad access could lead to unintended changes or security risks.​
 
-__Download the mary credentials for login after successfull creation__
-![.](./Img/13.4%20Mary%20created.jpg)
+- Principle of Least Privilege: To enhance security, it's advisable to follow the principle of least privilege by granting John only the permissions necessary for his role. This minimizes potential misuse or accidental disruptions.​
 
-_Difference Between IAM Users and Groups IAM users are like individual people with their own keys to the building. Each user has their own login and permissions. IAM groups, on the other hand, are like teams. Instead of giving each person separate permissions, you can put them in a group and give the group the access it needs. For example, if you have five developers, you add them to a "Developers" group and set the permissions for the group once, rather than for each person separately._
+- Custom Policies: Creating a custom IAM policy tailored to the development team's requirements can provide more controlled access. For instance, limiting actions to specific EC2 operations or resources.​
 
-_How IAM Policies are Created Creating an IAM policy is like writing a set of rules for what someone can and cannot do. First, you decide what actions you want to allow or block (like reading data, updating files, or deleting resources). Then, you write these rules in a policy, which is just a document that AWS understands. Finally, you attach this policy to a user or a group, which gives them the permissions you specified._
+- Resource Tagging: Implementing resource tags and using them in IAM policies can restrict access to specific EC2 instances, ensuring that John interacts only with designated resources. ​ AWS Repost
 
-> ## **Testing and validation**<br>
-__To validate john permission__
-_login as john, using the credential downloaded into the AWS management console_
-![.](./Img/14.%20john.jpg)
-![.](./Img/14.1%20john%20consle.jpg)
-_John Console management dashboard_
-![.](./Img/14.1%20john%20consle.jpg)
-_Navigating to EC2 instance for the policy cretaed only_
-![.](./Img/14.2%20ec2%20ins.jpg)
-_Attempting to use ssh and creating new instance it was denied_
-![.](./Img//14.3%20not%20permit.jpg)
-_acees denied_
-![.](./Img/14.4%20access.jpg)
-_it has access to operate on EC2 suh as `Start, stop running and so on_
-![.](./Img/14.5%20launch.jpg)
-![.](./Img/14.6%20manage%20acc.jpg)
-![.](./Img/14.7%20stopped.jpg)
+- Monitoring and Auditing: Utilize `AWS CloudTrail` and IAM Access Analyzer to monitor John's activities and validate that permissions align with intended access levels.
 
-__To validate mary permission__
-_login as mary, using the credential downloaded into the AWS management console_
-_Changing mary password_
-![.](./Img/15.%20mary%20pass.jpg)
-_Mary dashboard on the management console_
-![.](./Img/15.1%20mary%20dash.jpg)
-_Mary access to S3 bucket only and creation_
-![.](./Img/15.2%20s3.jpg)
-_Creating s3 bucket named `Mary bucket`_
-![.](./Img/15.4%20%20create%20s3.jpg)
-![.](./Img/15.5....jpg)
-![.](./Img/15.6....jpg)
-_Create the bucket_
-![.](./Img/15.7..%20crea.jpg)
-__The s3 buckety for storage created successfully__
-![.](./Img/15.8%20created.jpg)
-_perfroming s3 action by uploading file into the storage_
-![.](./Img/15.9%20upload.jpg)
-_Uploading file/folder_
-![.](./Img/16.%20upl.jpg)
-__selecting file for uploading__
-![.](./Img/16.1.jpg)
-_File uploaded succesfully, making a action on s3 done_
-![.](./Img/16.2%20uploaded.jpg)
+In this project, we will be working with a hypothetical fintech startup named Zappy e-Bank. This fictitious company represents a typical startup venturing into the financial technology sector, aiming to leverage the cloud's power to innovate, scale, and deliver financial services. The scenaria is set up to provide a realistic backdrop that will help to understand the application of AWS IAM in managing cloud resources securely and efficiently.
 
-## __Validare group policy__
-_Test the validation and autorization, mary was not autorised into EC2 instance because the permission was for only S3 bucket_
-![.](./Img/16.3%20%20Mary%20not%20authorised.jpg)
-_crearing a user by herself also denied_
-![.](./Img/17.%20valid.jpg)
+### The Importance of IAM for Zappy e-Bank
 
-__John in Development-Team group Validation__
-_all thge security access was denied_
-![.](./Img/17.3%20denied.jpg)
-_creating user into group was also denied_
-![.](./Img/17.4%20iam%20denied.jpg)
+For Zappy e-Bank, like any company dealing with financial services, security and compliance are paramount. The company must ensure that its data, including sensitive customer information, is securely managed and that access to resources is tightly controlled. AWS IAM plays a critical role in achieving these security objectives by allowing the company to define who is authenticated (**Signedin**)
+and authorized (**has permissions**) to use resources. 
+
+### IAM will enable Zappy e-Bank to:
+
+1. Create and manage AWS users and groups, to control access to AWS services and resources securely.
+
+2. Use IAM roles and policies to set more granular permissions for AWS services and external users or services that need to access **Zappy e-Bank'** AWS resources.
+
+3. Implement strong access controls, including multi-factor authentication (MFA), to enhance security.
+
+This project will walk you through setting up IAM for **Zappy e-Bank**, creating a secure environment that reflects real-world usage and challenges. Through this hands-on experience, you will learn the fundamentals of IAM, how to manage access to AWS resources, and best practices for securing your cloud environment.
 
 
-> ## **Implememt Multi-Factor Authentication**<br>
-_Multi-factor authentication(MFA) is a security feature that adds an extra layer of protection to your AWS account and resources. With MFA ebabled, user are required to provide two or more fe=orms of authentication before they can access AWS resources_
+### Hands-on creating IAM users, group and policy
 
- __Create and setting up MFA for john__<br>
- _Click user and click on john_
- ![.](./Img/18.%20mfa.jpg)
- _input the name for MFA `john-MFA`, and pick authenticator app_
- ![.](./Img/17.5%20john%20mfa.jpg)
- _Open google authenticator to scan the code for MFA_
-![.](./Img/18.3...jpg)
-_by completing step 1-5, MFA will be enabled for john_
-![.](./Img/18.4..%20created.jpg)
-![.](./Img/)
+- 1. Login to your aws account as root user
 
-__Setting up MFA for Mary__<br>
- _Click user and click on mary_
- ![.](./Img/19.%20mary%20mfa.jpg)
-_Click on the enabled MFA as shown in the image below_
- ![.](./Img/19.11.jpg)
-  _input the name for MFA `john-MFA`, and pick authenticator app_
-  ![.](./Img/19.22.jpg)
- _Open google authenticator to scan the code for MFA_
-![.](./Img/19.333.jpg)
-_by completing step 1-5, MFA will be enabled for Mary_
-![.](./Img/19.4444.jpg)
+![](./images/1.%20root-user-signin.png)
+
+- 2. Navigating to the IAM Dahboard, and click on `Policy`.
+
+![](./images/2.%20IAM-Policy.png)
+
+- 3. Click on create policy.
+
+![](./images/3.%20create-policy.png)
+
+- 4. In the select a service section, search for Ec2
+
+![](./images/4.%20service-dropdown-selectEC2.png)
+
+- 5. Select the **"All Ec2 action"** checkbox
+
+![](./images/5.%20All-EC2-Actions.png)
+
+- 6. Select all in the resource section and click next
+
+![](./images/6.%20select-all-resources.png)
+
+- 7. Provde the name `developers` and `description` for policy
+
+![](./images/7.%20zappy-policy-details.png)
+
+- 8. Click on `Create Policy`
+
+![](./images/7b.%20create-policy.png)
+
+Notice that after creating the policy, if you search for `developer` in the search box, you will notice that a number of policies are returned. This highlights the presence of both AWS managed and customer managed policies. `AWS managed policies` are predefined by AWS and provide permissions for many common use cases, allowing for quick and broad access management across AWS services without the need for custom policy creation like we just did. In contrast, customer managed policies are created and fully controlled by you, allowing for more tailored, specific access controls that can be finely tuned to your organization's requirements.
+
+- 8. Check that `developer` policy is created
+
+![](./images/8.%20developers-searchbar.png)
+
+### Creating policy for Data Analyst Team
+
+- 9. navigate to your dashboard and click `policy` on the left and `create policy` on the right
+
+![](./images/3.%20create-policy.png)
+
+- 10.  In the policy editor, click all s3 actions as shown below.
+
+![](./images/9.%20S3-user.png)
+
+- 11. click on `All` in the resource section and click `next`
+
+![](./images/10.%20s3-next.png)
+
+- 12. in the policy details, write the policy and the description
+
+![](./images/11.%20S3-analyst.png)
+
+- 13. Check that `Analyst` policy is created
+
+![](./images/12.%20created-successfully.png)
+
+## Creat group for development team
+
+- 14. In the IAM console navigation, select `User group` and in the top right click `Create group`
+
+![](./images/13.%20user-group.png)
+
+- 15. provide the name of the group
+
+![](./images/14.%20dev-team.png)
+
+- 16. Attach the developer policy to the group. This will allow any user in the `Development-Team` group to have access to EC2 instances alone, and click on create group.
+
+![](./images/15.%20create-user-group.png)
+
+- 17. development group created successfully
+
+![](./images/16.%20dev-defined.png)
 
 
-_The Principle of Least Privilege The principle of least privilege means only giving people access to what they absolutely need, nothing more. It’s like giving someone a key that only opens the rooms they need for their work, not the whole building. In AWS, this is important because it reduces the chance of mistakes or misuse. If someone’s account is compromised, the damage is limited because they couldn’t access things they didn’t need._
+## Creat group for Analysts team
 
-**This is all concerning The IAM and its security**
+- 18. In the IAM console navigation, select `User group` and in the top right click `Create group`
+
+![](./images/17.%20creating-analyst-group.png)
+
+- 19. Name the group
+
+![](./images/18.%20analyst-team.png)
+
+
+- 20. Attach the Analysts policy to the group. This will allow any user in the `Analysts-Team` group to have access to S3 alone, and click on create group.
+
+![](./images/19.%20analyst-team-created.png)
+
+
+- 21. Analyst group created successfully
+
+![](./images/20.%20analyst-defined.png)
+
+
+### Create IAM User for John
+
+Navigate to the IAM dashboard, select `User`, and click on `create user`
+
+![](./images/21.%20user-create-user.png)
+
+- 22. Write user details, and check the `provide user access to AWS management`
+
+![](./images/22.%20specify-users-details.png)
+
+
+- 23. Check these box as well and click on next
+
+![](./images/22b.%20iam-user-creation.png)
+
+- 24. Permissions: Add John to the development-team Group and click next
+
+![](./images/23.%20john-deve-team.png)
+
+- 25. Click on create User and download the credentials for John
+
+![](./images/24.%20review-create.png)
+
+### Create IAM User for Mary.
+
+- 26. Navigate to the IAM dashboard, select `User`, and click on `create user`
+
+![](./images/25.%20creat-user4mary.png)
+
+- 27. Write user details, and check the `provide user access to AWS management` and check the second box `i want to create an IAM User`
+
+![](./images/26.%20maryIAMuser.png)
+
+- 28. check thses boxes as well and click on next
+
+![](./images/26b.%20maryNext.png)
+
+- 29. Permissions: Add Mary to the `Analysts-team Group` and click next
+
+![](./images/27.%20add-user-to-group.png)
+
+- 30. download Mary's credentials
+
+![](./images/28.%20download-login.png)
+
+## Testing and Validating.
+
+- 31. Testing John's access
+- Login to John's aws account
+
+![](./images/29.%20john-login.png)
+
+- 32. Navigate into John's dashboard
+
+![](./images/30.%20john-dashboard.png)
+
+- 33. Navigate to John's EC2 dashboard to launch an Instance.
+
+![](./images/31.%20john-ec2.png)
+
+- 34. John launch an Ec2 instance named `zappy e-Bank`
+
+![](./images/32.%20john-launch-instance.png)
+
+- 35. John is denied access to naviagte his dashboard or even create IAM user.
+
+![](./images/33.%20John-IAMdashboard-denial.png)
+
+### Testing Mary's access
+
+- 36. Login to Mary's AWS account
+
+![](./images/34.%20Mary-login.png)
+
+- 37. Navigate into Mary's dashboard
+
+![](./images/35.%20mary-login-fully.png)
+
+- 38. Mary create S3 bucket named `zappy-s3`
+
+![](./images/36.%20mary-s3-bucket.png)
+
+- 39. S3 bucket created successfully
+
+![](./images/37.%20s3-creation.png)
+
+- 40. Mary is denied `IAM ` access
+
+![](./images/38.%20mart-IAM-user.png)
+
+
+## Implementing Multi-Factor Authentication (MFA)
+
+- 41. setting up MFA for John, click on user and then click on John.
+
+![](./images/39.%20johnMFA.png)
+
+- 42. Click on enable MFA as shown below
+
+![](./images/40.%20enablejohn-mfa.png)
+
+- 43. Enter a device name for John and MFA and select authenticator app
+
+![](./images/41.%20mfa-setup-4john.png)
+
+- 44. open your google authenticator on your mobile device to scan the QR code.
+
+![](./images/42.%20JOHN-SQR.png)
+
+- 45. by completing step 1-5, MFA will be enabled for John
+
+![](./images/43.%20mfa-added.png)
+
+### Setting up MFA for Mary 
+
+- 46. click on user and then click on Mary.
+
+![](./images/44.%20maryMFA.png)
+
+
+- 47. Click on enable MFA as shown below
+
+![](./images/45.%20enableMary-MFA.png)
+
+- 48. Enter a device name for Mary and MFA and select authenticator app and click on next.
+
+![](./images/46.%20MFA-setup-4mary.png)
+
+- 49. open your google authenticator on your mobile device to scan the QR code, also enter the codes generated by the authenticated.
+
+![](./images/47.%20Mary-SQR.png)
+
+- 50. by completing step 1-5, MFA will be enabled for Mary.
+
+![](./images/48.%20Mary-Mfa-added.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
