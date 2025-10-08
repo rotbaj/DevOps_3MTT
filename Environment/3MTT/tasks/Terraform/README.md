@@ -73,7 +73,7 @@ mkdir terraform-ec2-ami && cd terraform-ec2-ami
 ```bash
 nano main.tf
 ```
-![terraform-script](img/terraform-script.png)
+![terraform-script](img/main.png)
 
 ---
 
